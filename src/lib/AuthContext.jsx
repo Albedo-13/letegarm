@@ -1,7 +1,13 @@
 "use client";
 
 import { createContext, useEffect, useState, useMemo } from "react";
-import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
 export const AuthContext = createContext(null);
@@ -9,7 +15,7 @@ export const AuthContext = createContext(null);
 export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const value = useMemo(() => ({ user, signIn, logOut }), [user]);
+  const value = useMemo(() => ({ user, signIn, signInWithGoogle, logOut }), [user]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -18,9 +24,16 @@ export default function AuthContextProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  function signIn() {
+  function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);
+    console.log("sign in with google successfull");
+  }
+
+  function signIn(email, password) {
+    signInWithEmailAndPassword(auth, email, password).then(() => {
+      console.log("sign in successfull");
+    });
   }
 
   function logOut() {

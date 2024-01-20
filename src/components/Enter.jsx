@@ -8,9 +8,10 @@ import { AuthContext } from "@/lib/AuthContext";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { auth } from "@/lib/firebase";
 import { useContext } from "react";
+import SignUpUserForm from "./SignUpUserForm";
 
 export default function Enter() {
-  const { user, signIn, logOut } = useContext(AuthContext);
+  const { user, signIn, signInWithGoogle, logOut } = useContext(AuthContext);
 
   console.log("user", user);
   console.log("signIn", signIn);
@@ -23,13 +24,15 @@ export default function Enter() {
   // TODO: Попробовать сделать на клиенте через куки. Может проблема из-за SSR
   return (
     <div>
-      <h2>Welcome, {user ? user.displayName : "Anonim"}</h2>
-      <button onClick={signIn} className="mx-2 p-4 bg-amber-500 rounded-lg">
+      <h2>Welcome, {user ? `${user.displayName ?? user.email}` : "Anonim"}</h2>
+      <button onClick={signInWithGoogle} className="mx-2 p-4 bg-amber-500 rounded-lg">
         Sign in
       </button>
       <button onClick={logOut} className="p-4 bg-pink-500 rounded-lg">
         Sign Out
       </button>
+
+      <SignUpUserForm signIn={signIn} />
     </div>
   );
 }
