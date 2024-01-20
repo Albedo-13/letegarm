@@ -24,10 +24,10 @@ export default function Enter() {
   return (
     <div>
       <h2>Welcome, {user ? user.displayName : "Anonim"}</h2>
-      <button onClick={signIn} className="mx-2 p-4 bg-amber-500">
+      <button onClick={signIn} className="mx-2 p-4 bg-amber-500 rounded-lg">
         Sign in
       </button>
-      <button onClick={logOut} className="p-4 bg-pink-500">
+      <button onClick={logOut} className="p-4 bg-pink-500 rounded-lg">
         Sign Out
       </button>
     </div>
