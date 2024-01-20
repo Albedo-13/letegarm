@@ -1,6 +1,6 @@
 'use client';
 
-import { loginUser } from "@/lib/actions";
+// import { loginUser } from "@/lib/actions";
 import { useRef } from "react";
 
 export default function LoginUserForm() {
@@ -10,8 +10,8 @@ export default function LoginUserForm() {
 
     <form ref={formRef} action={
         (formData) => {
-          loginUser(formData);
-          formRef.current?.reset();
+          // loginUser(formData);
+          // formRef.current?.reset();
         }
       }>Login Form
       <input type="text" name="email" className="block text-black caret-pink-500" />
