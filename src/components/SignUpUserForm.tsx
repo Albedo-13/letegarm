@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type TFormData = {
   email: { value: string };
@@ -8,20 +8,17 @@ type TFormData = {
 };
 
 type TProps = {
-  readonly signIn: (email: string, password: string) => void
+  readonly createUser: (email: string, password: string) => void
 };
 
-export default function SignUpUserForm({ signIn }: TProps) {
+export default function SignUpUserForm({ createUser }: TProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // TODO: метод (или createUser) должен возвращать формат ошибки, что пользователя не существует
     e.preventDefault();
     const target = e.target as HTMLFormElement & TFormData;
-
-    signIn(target.email.value, target.password.value);
-    // console.log(target.email.value);
-    // console.log(target.password.value);
-
+    createUser(target.email.value, target.password.value);
     formRef.current?.reset();
   }
 

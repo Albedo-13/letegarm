@@ -2,20 +2,22 @@
 
 import { createContext, useEffect, useState, useMemo } from "react";
 import {
+  createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { addDoc, collection, getDocs, limit, query, where } from "firebase/firestore";
 
 export const AuthContext = createContext(null);
 
 export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const value = useMemo(() => ({ user, signIn, signInWithGoogle, logOut }), [user]);
+  const value = useMemo(() => ({ user, LoginUserWithGoogle, loginUser, createUser, logOutUser }), [user]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -24,19 +26,45 @@ export default function AuthContextProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  function signInWithGoogle() {
+  function LoginUserWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);
-    console.log("sign in with google successfull");
+    console.log("login with google successfull");
   }
 
-  function signIn(email, password) {
-    signInWithEmailAndPassword(auth, email, password).then(() => {
-      console.log("sign in successfull");
-    });
+  async function loginUser(email, password) {
+    const userByEmailQuery = query(collection(db, "users"), where("email", "==", email), limit(1));
+    const querySnapshot = await getDocs(userByEmailQuery);
+
+    // login new user ONLY if email is registered
+    if (querySnapshot.size) {
+      signInWithEmailAndPassword(auth, email, password).then(() => {
+        console.log("login successfull");
+      });
+    }
   }
 
-  function logOut() {
+  async function createUser(email, password) {
+    // TODO: Инкапсулировать логику и поместить в firebase.js
+
+    const userByEmailQuery = query(collection(db, "users"), where("email", "==", email), limit(1));
+    const querySnapshot = await getDocs(userByEmailQuery);
+
+    // create new user ONLY if email is not registered
+    if (!querySnapshot.size) {
+      const usersRef = await addDoc(collection(db, "users"), {
+        email,
+        password,
+      });
+      console.log("Document written: ", usersRef);
+
+      createUserWithEmailAndPassword(auth, email, password).then(() => {
+        console.log("registration successfull");
+      });
+    }
+  }
+
+  function logOutUser() {
     signOut(auth).then(() => {
       console.log("sign out successfull");
     });
