@@ -5,18 +5,10 @@ import { useContext } from "react";
 import Link from "next/link";
 
 export default function Enter() {
-  const { user, loginUser, createUser, logOutUser } = useContext(AuthContext);
+  const { user, logOutUser } = useContext(AuthContext);
 
   console.log("user", user);
-  console.log("loginUser", loginUser);
-  console.log("createUser", createUser);
-  console.log("logOutUser", logOutUser);
-  // TODO: отказаться от сервер экшенов. Они нужны только для работы с таблицами, но не авторизацией
-  // https://www.youtube.com/watch?v=S_sV6bYWKXQ&ab_channel=CodeCommerce
-  // https://github.com/fireclint/next-auth-firebase/blob/main/app/context/AuthContext.js
 
-  // TODO: Попробовать регистрацию с гугла
-  // TODO: Попробовать сделать на клиенте через куки. Может проблема из-за SSR
   return (
     <div>
       <h2>Welcome, {user ? `${user.displayName ?? user.email}` : "Anonim"}</h2>
