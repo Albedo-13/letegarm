@@ -37,7 +37,7 @@ export default function AuthContextProvider({ children }) {
 
     // create new user ONLY if email is not registered
     if (!isUserExist) {
-      createUserInDatabase(email, password);
+      await createUserInDatabase(email, password);
     }
   }
 
