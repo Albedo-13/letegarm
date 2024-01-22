@@ -2,8 +2,8 @@
 
 import { AuthContext } from "@/lib/AuthContext";
 import { useContext } from "react";
-import SignUpUserForm from "./SignUpUserForm";
-import LoginUserForm from "./LoginUserForm";
+import Link from "next/link";
+import { useUserInfo } from "@/lib/hooks";
 
 export default function Enter() {
   const { user, LoginUserWithGoogle, loginUser, createUser, logOutUser } = useContext(AuthContext);
@@ -21,15 +21,23 @@ export default function Enter() {
   return (
     <div>
       <h2>Welcome, {user ? `${user.displayName ?? user.email}` : "Anonim"}</h2>
-      <button onClick={LoginUserWithGoogle} className="mx-2 p-4 bg-amber-500 rounded-lg">
-        Sign in
+      <button onClick={LoginUserWithGoogle} className="mx-2 p-4 bg-blue-500 rounded-lg">
+        Google Sign in
       </button>
       <button onClick={logOutUser} className="p-4 bg-pink-500 rounded-lg">
         Sign Out
       </button>
 
-      <SignUpUserForm createUser={createUser} />
-      <LoginUserForm loginUser={loginUser} />
+      <div className="block mt-5">
+        <Link href={"/signup"} className="inline-block p-2 bg-yellow-500 mx-4">
+          Sign up →
+        </Link>
+        <Link href={"/login"} className="inline-block p-2 bg-orange-500">
+          Login →
+        </Link>
+      </div>
+      {/* <SignUpUserForm />
+      <LoginUserForm /> */}
     </div>
   );
 }
