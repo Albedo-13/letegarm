@@ -38,6 +38,7 @@ export default function AuthContextProvider({ children }) {
 
     // login new user ONLY if email is registered
     if (querySnapshot.size) {
+      console.log("login existing user");
       signInWithEmailAndPassword(auth, email, password).then(() => {
         console.log("login successfull");
       });
@@ -52,6 +53,7 @@ export default function AuthContextProvider({ children }) {
 
     // create new user ONLY if email is not registered
     if (!querySnapshot.size) {
+      console.log("create new user");
       const usersRef = await addDoc(collection(db, "users"), {
         email,
         password,

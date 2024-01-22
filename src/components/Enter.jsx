@@ -3,7 +3,6 @@
 import { AuthContext } from "@/lib/AuthContext";
 import { useContext } from "react";
 import Link from "next/link";
-import { useUserInfo } from "@/lib/hooks";
 
 export default function Enter() {
   const { user, LoginUserWithGoogle, loginUser, createUser, logOutUser } = useContext(AuthContext);
