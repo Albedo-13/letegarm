@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getFirestore, addDoc, collection, getDocs, limit, query, where } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -20,4 +20,22 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
+export async function getUserSnapshotByEmail(email) {
+  const userByEmailQuery = query(collection(db, "users"), where("email", "==", email), limit(1));
+  const querySnapshot = await getDocs(userByEmailQuery);
+  return querySnapshot;
+}
+
+export async function createUserInDatabase(email, password) {
+  console.log("create new user");
+  const usersRef = await addDoc(collection(db, "users"), {
+    email,
+    password,
+  });
+  console.log("Document written: ", usersRef);
+
+  createUserWithEmailAndPassword(auth, email, password).then(() => {
+    console.log("registration successfull");
+  });
+}
 

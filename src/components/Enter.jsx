@@ -5,7 +5,7 @@ import { useContext } from "react";
 import Link from "next/link";
 
 export default function Enter() {
-  const { user, LoginUserWithGoogle, loginUser, createUser, logOutUser } = useContext(AuthContext);
+  const { user, loginUser, createUser, logOutUser } = useContext(AuthContext);
 
   console.log("user", user);
   console.log("loginUser", loginUser);
@@ -20,10 +20,7 @@ export default function Enter() {
   return (
     <div>
       <h2>Welcome, {user ? `${user.displayName ?? user.email}` : "Anonim"}</h2>
-      <button onClick={LoginUserWithGoogle} className="mx-2 p-4 bg-blue-500 rounded-lg">
-        Google Sign in
-      </button>
-      <button onClick={logOutUser} className="p-4 bg-pink-500 rounded-lg">
+      <button onClick={logOutUser} className="p-3 bg-pink-500 rounded-lg">
         Sign Out
       </button>
 
