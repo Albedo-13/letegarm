@@ -1,12 +1,6 @@
 "use client";
 
 import { AuthContext } from "@/lib/AuthContext";
-// import { useUserInfo } from "@/lib/hooks";
-// import SignUpUserForm from "./SignUpUserForm";
-// import LoginUserForm from "./LoginUserForm";
-// import SignOutButton from "./SignOutButton";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { auth } from "@/lib/firebase";
 import { useContext } from "react";
 import SignUpUserForm from "./SignUpUserForm";
 import LoginUserForm from "./LoginUserForm";

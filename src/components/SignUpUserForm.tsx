@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useRef } from "react";
 
 type TFormData = {
   email: { value: string };
